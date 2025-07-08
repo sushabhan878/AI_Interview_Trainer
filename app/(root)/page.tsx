@@ -1,5 +1,5 @@
 
-const page = () => {
+const HomePage = () => {
   return (
     <div>
       Next Interview Trainer.
@@ -7,4 +7,4 @@ const page = () => {
   )
 }
 
-export default page
+export default HomePage
