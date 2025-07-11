@@ -1,6 +1,6 @@
 "use server";
 
-import { auth, db } from "@/firebase/admin"
+import { auth, db } from "@/firebase/admin";
 import { cookies } from "next/headers";
 
 // Session duration (1 week)
@@ -69,7 +69,7 @@ export async function signUp(params: SignUpParams) {
 
 export async function signIn(params: SignInParams) {
   const { email, idToken } = params;
-  
+
   try {
     const userRecord = await auth.getUserByEmail(email);
     if (!userRecord)
