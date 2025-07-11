@@ -29,6 +29,14 @@ export async function signUp(params: SignUpParams) {
   const { uid, name, email } = params;
 
   try {
+
+    if (!db) {
+      console.log("❌ DB is undefined");
+      return {
+        success: false,
+        message: "Firestore is not initialized",
+      };
+    }
     // check if user exists in db
     const userRecord = await db.collection("users").doc(uid).get();
     if (userRecord.exists)
@@ -50,7 +58,9 @@ export async function signUp(params: SignUpParams) {
       message: "Account created successfully. Please sign in.",
     };
   } catch (error: any) {
-    console.error("Error creating user:", error);
+      console.error("❌ Error creating user in Firestore:", error);
+      console.error("🔥 UID:", uid);
+      console.error("📦 Data:", { name, email });
 
     // Handle Firebase specific errors
     if (error.code === "auth/email-already-exists") {
@@ -92,10 +102,8 @@ export async function signIn(params: SignInParams) {
 // Sign out user by clearing the session cookie
 export async function signOut() {
   const cookieStore = await cookies();
-
   cookieStore.delete("session");
 }
-
 // Get current user from session cookie
 export async function getCurrentUser(): Promise<User | null> {
   const cookieStore = await cookies();
